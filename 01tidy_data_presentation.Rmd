@@ -368,7 +368,7 @@ Not hard to remedy, but still annoying and potentially dangerous. Easy fix for _
 bind_rows(t_15, t_16, t_17)
 ```
 
-## Displaying tidy data
+## An Aside: Displaying tidy data
 
 
 
@@ -391,7 +391,10 @@ bind_rows(t_15, t_16, t_17)
 
 ## Wrapping up
 
-> If I had one thing to tell biologists learning bioinformatics, it would be "write code for humans, write data for computers". - [Vince Buffalo](https://twitter.com/vsbuffalo/status/358699162679787521)
+ - Code is for _humans_, data is for _computers_ ([relevant tweet from Vince Buffalo](https://twitter.com/vsbuffalo/status/358699162679787521))
+ - Be consciously aware of your __values__, __variables__, and __observations__
+ - Normalization is your friend
+ - Be assertive and understanding
 
 ## Other resources
 
@@ -409,5 +412,8 @@ There's a bevy of resources I consulted for this presentation. I've arranged the
 
 Here's [the link to my GitHub repository](https://github.com/bgstieber/tidy-data-presentation).
 
+## Questions?
+
+\huge{Thanks for listening!}
 
 
