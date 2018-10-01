@@ -141,13 +141,11 @@ There are three qualities a dataset must have to be considered "tidy"
 ## The Language of Tidy Data
 
  >- Dataset: a collection of values (e.g. [iris data](https://en.wikipedia.org/wiki/Iris_flower_data_set))
- >- Variable: 
- >- Values: 
- >- Observation:
- >- Long:
- >- Wide:
+ >- Variable: all values that measure the same underlying attribute (e.g. height, width)
+ >- Values: a specific measurement or attribute for a variable (e.g. $100)
+ >- Observation:  all values measured on the same unit (like a person, or a day, or a race) across variables
 
-It's usually easy to figure out things like _observations_ and _variables_ for a given dataset, but defining them in the abstract can be difficult.
+It's usually easy to figure out things like _observations_ and _variables_ for a given dataset, but defining them in the abstract can be difficult. 
 
 ## The Data Tidying Operations
 
@@ -183,12 +181,16 @@ We'll go through examples of each of the five.
 
 ## 1. Column headers are values, not variable names
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+The first dataset we'll look at comes from the WHO and displays the number of TB cases for three countries in two years.
 
 ```{r}
 kable_latex(table4a)
 tb_data <- table4a
 ```
+
+This data is too _wide_, as `1999` and `2000` are __values__ for a __variable__ we could call `year`.
+
+Although difficult to analyze, this form of data storage is helpful for presentation and data entry.
 
 How would we tidy up?
 
@@ -206,7 +208,7 @@ tb_data %>%
 
 ## 2. Multiple variables are stored in one column
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+The next table has two columns, but it should have four. How would you work with this data without tidying it first?
 
 ```{r}
 hec_untidy <- HairEyeColor %>%
@@ -218,11 +220,13 @@ hec_untidy %>%
     kable_latex()
 ```
 
+The `HairEyeColor` __variable__ actually has __values__ for three separate __variables__ stored within it.
+
 How would we tidy up?
 
 ## Tidying #2 (1/2)
 
-Need to [`separate`](https://tidyr.tidyverse.org/reference/separate.html) one column (`Hair - Eye - Sex`) into multiple columns (`hair`, `eye`, `sex`)
+We need to [`separate`](https://tidyr.tidyverse.org/reference/separate.html) one column (`Hair - Eye - Sex`) into multiple columns (`hair`, `eye`, `sex`)
 
 ```{r echo = TRUE}
 hec_untidy %>%
@@ -245,7 +249,7 @@ hec_untidy %>%
 
 ## 3. Variables are stored in both rows and columns
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+This is the most complicated form of untidy data, and typically requires a bit more massaging.
 
 ```{r}
 mkt_untidy <- EuStockMarkets %>% 
@@ -262,34 +266,34 @@ mkt_untidy %>%
   kable_latex()
 ```
 
-How would we tidy up? Think carefully about that the __observation__ is for this data?
+How would we tidy up? Think carefully about that the __observation__ is for this data
 
 ## Tidying #3 (1/2)
 
-What is the "observation" (a __stock on a day__ or a day)?
+What is the "observation" (__a day__ or a stock on a day)?
 
 ```{r echo = TRUE}
 mkt_untidy %>%
-    gather(day, price, starts_with('d')) %>%
-    # spread(stock, price) %>%
-    mutate(day = gsub('d', '', day)) %>%
-    unite(date, year, month, day, sep = '-') %>%
+    gather(day, price, starts_with('d')) %>% # wide to long
+    spread(stock, price) %>% # long back to wide-ish
+    mutate(day = gsub('d', '', day)) %>% # remove "d"
+    unite(date, year, month, day, sep = '-') %>% # 3 cols to 1
     mutate(date = lubridate::ymd(date))
 ```
+
 
 ## Tidying #3 (2/2)
 
-What is the "observation" (a stock on a day or __a day__)?
+What is the "observation" (a day or a __stock on a day__)?
 
 ```{r echo = TRUE}
 mkt_untidy %>%
-    gather(day, price, starts_with('d')) %>%
-    spread(stock, price) %>%
-    mutate(day = gsub('d', '', day)) %>%
-    unite(date, year, month, day, sep = '-') %>%
+    gather(day, price, starts_with('d')) %>% # wide to long
+    # spread(stock, price) %>% # long back to wide-ish
+    mutate(day = gsub('d', '', day)) %>% # remove "d"
+    unite(date, year, month, day, sep = '-') %>% # 3 cols to 1
     mutate(date = lubridate::ymd(date))
 ```
-
 
 ## 4. Multiple types of observational units are stored in the same table
 
@@ -321,18 +325,17 @@ select_distinct <- function(data, ...){
     distinct()
 }
 # golfer table
-tw_data %>% 
+golfer <- tw_data %>% 
   select_distinct(golfer, birth_date, birth_place)
 
 # tournament table
-tw_data %>% 
+tournament <- tw_data %>% 
   select_distinct(tournament, tournament_date)
 
 # result table
-tw_data %>% 
+tournament_results <- tw_data %>% 
   select_distinct(tournament, winner = golfer, final_score)
 ```
-
 
 ## 5. A single observational unit is stored in multiple tables
 
@@ -344,7 +347,9 @@ Have you ever worked with US government data before?
 
 ## 5. A single observational unit is stored in multiple tables
 
-Have you ever worked with US government data before? If so, you know this is common:
+Have you ever worked with US government data before? 
+
+If so, you know this is common:
 
 ```{r}
 t_15 <- data_frame(year = 2015, cpi = 237)
@@ -363,6 +368,7 @@ bind_rows(t_15, t_16, t_17)
 ```
 
 ## Displaying tidy data
+
 
 ## OPTIONAL - Organizing data in spreadsheets
 
