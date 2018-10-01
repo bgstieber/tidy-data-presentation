@@ -72,11 +72,12 @@
 
 Resources
 
-  - [The tidy data paper](http://vita.had.co.nz/papers/tidy-data.html)
+  - [_The_ tidy data paper](http://vita.had.co.nz/papers/tidy-data.html)
   - [Informal version of tidy data paper](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
   - [Practical introduction to tidy data](http://r4ds.had.co.nz/tidy-data.html)
   - [Tidy data presentation](http://stat405.had.co.nz/lectures/18-tidy-data.pdf)
   - [Database Normalization](https://www.essentialsql.com/get-ready-to-learn-sql-database-normalization-explained-in-simple-english/)
   - [Codd's 3rd Normal Form](https://en.wikipedia.org/wiki/Third_normal_form)
-  - [Tidy data analysis (an extension of the tidy data paradigm)]()ttps://simplystatistics.org/2017/05/24/toward-tidy-analysis/)
+  - [Tidy data analysis (an extension of the tidy data paradigm)](https://simplystatistics.org/2017/05/24/toward-tidy-analysis/)
   - [Data Organization in Spreadsheets](https://www.tandfonline.com/doi/full/10.1080/00031305.2017.1375989)
+  - [Tidy Data in Python](http://www.jeannicholashould.com/tidy-data-in-python.html)
