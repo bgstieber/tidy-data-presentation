@@ -154,10 +154,10 @@ It's usually easy to figure out things like _observations_ and _variables_ for a
 
 Getting data into a tidy format first requires understanding the three qualities of tidy data, as well as the five most common types of untidy data.
 
-Then, we can get most forms of untidy data to be tidy by utilizing four "verbs" of data tidying
+Then, we can get most forms of untidy data to be tidy by utilizing four verbs of data tidying
 
-  - [`gather`](https://tidyr.tidyverse.org/reference/gather.html): takes multiple columns, and gathers them into key-value pairs: it makes "wide" data longer
-  - [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads in to multiple columns, it makes "long" data wider
+  - [`gather`](https://tidyr.tidyverse.org/reference/gather.html): takes multiple columns, and gathers them into key-value pairs. it makes "wide" data longer
+  - [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads in to multiple columns. it makes "long" data wider
   - [`separate`](https://tidyr.tidyverse.org/reference/separate.html): turns a single character column into multiple columns, based on a regular expression or specific positions
   - [`unite`](https://tidyr.tidyverse.org/reference/unite.html): concatenate multiple columns into one
 
@@ -166,7 +166,7 @@ Then, we can get most forms of untidy data to be tidy by utilizing four "verbs" 
 
 ## Five common types of untidy data
 
-Here are the five most common types of untidy data you're likely to experience "in the wild".
+Here are the five most common types of untidy data you're likely to experience "in the wild":
 
  >- Column headers are values, not variable names.
  >- Multiple variables are stored in one column.
@@ -370,7 +370,14 @@ bind_rows(t_15, t_16, t_17)
 
 ## An Aside: Displaying tidy data
 
+How can we make it easier to scan raw values in a data table?
 
+  >- Determine the roles of variables in your analysis (fixed by design of experiment vs. measured during course of experiment)
+  >- Fixed variables should come first, then measured variables
+    + Order from L-R by degree of fixed-ness. The "most fixed" variables are the key describers of an observation, and are useful when we're trying to scan values.
+  >- Put related variables next to each other
+
+Using this scheme, we can order rows based on the first variable and then breaking ties with the second and subsequent (fixed) variables after that.
 
 ## OPTIONAL - Organizing data in spreadsheets
 
@@ -393,7 +400,7 @@ bind_rows(t_15, t_16, t_17)
 
  - Code is for _humans_, data is for _computers_ ([relevant tweet from Vince Buffalo](https://twitter.com/vsbuffalo/status/358699162679787521))
  - Be consciously aware of your __values__, __variables__, and __observations__
- - Normalization is your friend
+ - Normalization can be your friend
  - Be assertive and understanding
 
 ## Other resources
