@@ -90,6 +90,9 @@ kable_latex <- function(data, scale_down = FALSE){
 
 ```
 
+## GitHub
+
+Find the repository for this presentation [on my GitHub](https://github.com/bgstieber/tidy-data-presentation)
 
 # Introduction
 
@@ -347,9 +350,7 @@ Have you ever worked with US government data before?
 
 ## 5. A single observational unit is stored in multiple tables
 
-Have you ever worked with US government data before? 
-
-If so, you know this is common:
+Have you ever worked with US government data before? If so, you know this is common:
 
 ```{r}
 t_15 <- data_frame(year = 2015, cpi = 237)
@@ -370,19 +371,20 @@ bind_rows(t_15, t_16, t_17)
 ## Displaying tidy data
 
 
+
 ## OPTIONAL - Organizing data in spreadsheets
 
 
 # Conclusion
 
-## 4 most important things to remember
+## Four most important things to remember
 
  1. Put each dataset in a table 
     - [`data.frame`](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) (`stringsAsFactors`? printing to a console? lazy evaluation?)
     - [`tibble`](https://tibble.tidyverse.org/) (AKA the nice version of `data.frame`)
  1. Put each variable in a column
  1. Ask yourself the following questions
-    - What are the rows of my dataset (level of detail)?
+    - What are the rows of my dataset (observation, level of detail)?
     - Is each column a _distinct_ variable?
     - How hard would it be to calculate a grouped aggregation?
  1. Structure and tidy up your data to be manipulated by a computer. Ignore urges to make it easily viewed by a human.
@@ -392,4 +394,20 @@ bind_rows(t_15, t_16, t_17)
 > If I had one thing to tell biologists learning bioinformatics, it would be "write code for humans, write data for computers". - [Vince Buffalo](https://twitter.com/vsbuffalo/status/358699162679787521)
 
 ## Other resources
+
+There's a bevy of resources I consulted for this presentation. I've arranged these in descending order of importance.
+
+  >- [_The_ tidy data paper](http://vita.had.co.nz/papers/tidy-data.html)
+  >- [Informal version of tidy data paper](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
+  >- [Practical introduction to tidy data](http://r4ds.had.co.nz/tidy-data.html)
+  >- [Data Organization in Spreadsheets](https://www.tandfonline.com/doi/full/10.1080/00031305.2017.1375989)
+  >- [Tidy data presentation](http://stat405.had.co.nz/lectures/18-tidy-data.pdf)
+  >- [Tidy data analysis (an extension of the tidy data paradigm)](https://simplystatistics.org/2017/05/24/toward-tidy-analysis/)
+  >- [Tidy Data in Python](http://www.jeannicholashould.com/tidy-data-in-python.html)
+  >- [Database Normalization](https://www.essentialsql.com/get-ready-to-learn-sql-database-normalization-explained-in-simple-english/)
+  >- [Codd's 3rd Normal Form](https://en.wikipedia.org/wiki/Third_normal_form)
+
+Here's [the link to my GitHub repository](https://github.com/bgstieber/tidy-data-presentation).
+
+
 
