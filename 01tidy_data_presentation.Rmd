@@ -1,0 +1,389 @@
+---
+title: "Tidy Data"
+author: "Brad Stieber"
+date: "`r Sys.Date()`"
+header-includes:
+- \usepackage{booktabs}
+- \usepackage{longtable}
+- \usepackage{array}
+- \usepackage{multirow}
+- \usepackage{wrapfig}
+- \usepackage{float}
+- \usepackage{colortbl}
+- \usepackage{pdflscape}
+- \usepackage{tabu}
+- \usepackage{threeparttable}
+- \usepackage{threeparttablex}
+- \usepackage[normalem]{ulem}
+- \usepackage{makecell}
+- \usepackage{xcolor}
+- \usepackage{tikz}
+- \usepackage{nopageno}
+- \hypersetup{colorlinks,linkcolor=purple,urlcolor=blue}
+
+citation_package: natbib
+output:
+  beamer_presentation:
+    keep_tex: false
+    theme: metropolis
+    slide_level: 2
+    incremental: true
+    toc: true
+fontsize: 10pt
+classoption: compress
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+
+```
+
+
+```{r}
+library(tidyverse)
+library(scales)
+library(extrafont)
+library(knitr)
+#o ptions(kableExtra.auto_format = FALSE)
+options(knitr.table.format = "latex")
+library(kableExtra)
+loadfonts()
+
+options(tibble.print_max = 3, tibble.print_min=3)
+
+theme_bgs <- function(){
+  theme_bw() +
+  theme(text = element_text(family = 'Segoe UI'),
+        plot.title = element_text(face = 'plain',
+                                  size = 14),
+        plot.subtitle = element_text(family = 'Segoe UI Semibold'),
+        panel.grid.minor = element_line(colour = "grey98", size = 0.25),
+        axis.title = element_text(family = 'Segoe UI Semibold', size = 9),
+        panel.border = element_rect(colour = 'grey85'),
+        axis.ticks = element_blank(),
+        legend.justification = 'top',
+        legend.title = element_text(family = 'Segoe UI Semibold'),
+        strip.background = element_rect(fill = 'grey92'),
+        strip.text = element_text(family = 'Segoe UI Semibold'))
+}
+
+theme_set(theme_bgs())
+
+kable_latex <- function(data, scale_down = FALSE){
+  if(scale_down){
+    data %>%
+      kable(align = 'l', booktabs = T) %>%
+      kable_styling(latex_options = c("scale_down"),
+                    position = 'center')
+  }else{
+    data %>%
+      kable(align = 'l', booktabs = T) %>%
+      kable_styling(position = 'center')
+  }
+  
+}
+
+```
+
+
+# Introduction
+
+## Goals for this talk
+
+My goal is for you to walk away from this presentation with an understanding of:
+
+ - Tidy data philosophy
+ - [__`tidyverse`__](https://www.tidyverse.org/) data terminology
+ - Common types of _untidy_ data
+ - Operations for tidying up
+ - Displaying tidy data
+
+## What this is based off of
+
+Most of what follows is based off of [Hadley Wickham's paper](http://vita.had.co.nz/papers/tidy-data.pdf) on tidy data. I would strongly recommend reading that paper. 
+
+If you're looking for a practical introduction, [Hadley Wickham has one of those too](http://r4ds.had.co.nz/tidy-data.html).
+
+```{r echo=FALSE, out.width='35%'}
+knitr::include_graphics('./memes/hadley_tidy_data.jpg')
+```
+
+I also borrow a bit from other resources (which will be listed at the end), as well as my own experience working with tidy _and_ untidy datasets.
+
+## But mostly...
+
+```{r echo=FALSE, out.width='100%'}
+knitr::include_graphics('./memes/fed_up_niles2.png')
+```
+
+# Idea (the theory)
+
+## Why tidy data?
+
+ - Consistency
+ - Rely on vectorization (in `R` and `pandas`), and expected/desired behavior in grouped aggregation (excel, tableau)
+ - Foresight
+
+## What is tidy data
+
+There are three qualities a dataset must have to be considered "tidy"
+
+ 1. Each variable forms a column.
+ 1. Each observation forms a row.
+ 1. Each type of observational unit forms a table.
+
+
+## The Language of Tidy Data
+
+ >- Dataset: a collection of values (e.g. [iris data](https://en.wikipedia.org/wiki/Iris_flower_data_set))
+ >- Variable: 
+ >- Values: 
+ >- Observation:
+ >- Long:
+ >- Wide:
+
+It's usually easy to figure out things like _observations_ and _variables_ for a given dataset, but defining them in the abstract can be difficult.
+
+## The Data Tidying Operations
+
+Getting data into a tidy format first requires understanding the three qualities of tidy data, as well as the five most common types of untidy data.
+
+Then, we can get most forms of untidy data to be tidy by utilizing four "verbs" of data tidying
+
+  - [`gather`](https://tidyr.tidyverse.org/reference/gather.html): takes multiple columns, and gathers them into key-value pairs: it makes "wide" data longer
+  - [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads in to multiple columns, it makes "long" data wider
+  - [`separate`](https://tidyr.tidyverse.org/reference/separate.html): turns a single character column into multiple columns, based on a regular expression or specific positions
+  - [`unite`](https://tidyr.tidyverse.org/reference/unite.html): concatenate multiple columns into one
+
+
+# Execution (the practice)
+
+## Five common types of untidy data
+
+Here are the five most common types of untidy data you're likely to experience "in the wild".
+
+ >- Column headers are values, not variable names.
+ >- Multiple variables are stored in one column.
+ >- Variables are stored in both rows and columns.
+ >- Multiple types of observational units are stored in the same table.
+ >- A single observational unit is stored in multiple tables.
+
+We'll go through examples of each of the five.
+
+## 
+
+![brace_meme](memes//brace_yourselves.jpg)\
+
+<br>
+
+## 1. Column headers are values, not variable names
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+```{r}
+kable_latex(table4a)
+tb_data <- table4a
+```
+
+How would we tidy up?
+
+## Tidying # 1
+
+Need to [`gather`](https://tidyr.tidyverse.org/reference/gather.html) columns into key-value (year-cases) pairs:
+
+```{r echo = TRUE}
+tb_data %>%
+    gather(key = year, 
+           value = tb_cases, 
+           -country) 
+```
+
+
+## 2. Multiple variables are stored in one column
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+```{r}
+hec_untidy <- HairEyeColor %>%
+    as_data_frame() %>%
+    unite('Hair - Eye - Sex', Hair, Eye, Sex, sep = ' - ') %>% 
+    head()
+
+hec_untidy %>%
+    kable_latex()
+```
+
+How would we tidy up?
+
+## Tidying #2 (1/2)
+
+Need to [`separate`](https://tidyr.tidyverse.org/reference/separate.html) one column (`Hair - Eye - Sex`) into multiple columns (`hair`, `eye`, `sex`)
+
+```{r echo = TRUE}
+hec_untidy %>%
+  separate(col = `Hair - Eye - Sex`,
+           into = c('hair', 'eye', 'sex'))
+```
+
+## Tidying #2 (2/2)
+
+Could go a step further and use [`uncount`](https://tidyr.tidyverse.org/reference/uncount.html) (the opposite of [`dplyr::count`](https://dplyr.tidyverse.org/reference/tally.html)):
+
+```{r echo = TRUE}
+hec_untidy %>%
+  separate(col = `Hair - Eye - Sex`,
+           into = c('hair', 'eye', 'sex')) %>%
+  uncount(n)
+```
+
+
+
+## 3. Variables are stored in both rows and columns
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+```{r}
+mkt_untidy <- EuStockMarkets %>% 
+  as_data_frame() %>%
+  head(31) %>%
+  mutate(day = factor(paste0('d', 1:31), paste0('d', 1:31)),
+         year = 2000,
+         month = 1) %>%
+  gather(stock, value, -day, -month, -year)%>%
+  spread(day, value) %>%
+  .[, 1:7]
+
+mkt_untidy %>%
+  kable_latex()
+```
+
+How would we tidy up? Think carefully about that the __observation__ is for this data?
+
+## Tidying #3 (1/2)
+
+What is the "observation" (a __stock on a day__ or a day)?
+
+```{r echo = TRUE}
+mkt_untidy %>%
+    gather(day, price, starts_with('d')) %>%
+    # spread(stock, price) %>%
+    mutate(day = gsub('d', '', day)) %>%
+    unite(date, year, month, day, sep = '-') %>%
+    mutate(date = lubridate::ymd(date))
+```
+
+## Tidying #3 (2/2)
+
+What is the "observation" (a stock on a day or __a day__)?
+
+```{r echo = TRUE}
+mkt_untidy %>%
+    gather(day, price, starts_with('d')) %>%
+    spread(stock, price) %>%
+    mutate(day = gsub('d', '', day)) %>%
+    unite(date, year, month, day, sep = '-') %>%
+    mutate(date = lubridate::ymd(date))
+```
+
+
+## 4. Multiple types of observational units are stored in the same table
+
+This is one that gets violated a lot. Our desire is to have _all_ the data in one spot. 
+
+Data should be __normalized__ during the process of tidying, it is not until we reach the analytical part of our data science process that denormalization should be preferred.
+
+```{r}
+tw_data <- data_frame(
+  golfer = 'Tiger Woods',
+  birth_date = structure(2189, class = "Date"),
+  birth_place = 'Cypress, CA',
+  tournament_date = structure(c(9775, 9789, 9873, 9964), class = "Date"),
+  tournament = c("Las Vegas", "Disney", "Mercedes", "Masters"),
+  final_score = c("-27", "-21", "-14", "-18")) 
+
+tw_data %>%
+  kable_latex(scale_down = TRUE)
+```
+
+How would you tidy up?
+
+## Tidying #4 (use [`dplyr::select`](https://dplyr.tidyverse.org/reference/select.html))
+
+```{r echo = TRUE, results = 'hide'}
+# helper function
+select_distinct <- function(data, ...){
+  select(data, ...) %>%
+    distinct()
+}
+# golfer table
+tw_data %>% 
+  select_distinct(golfer, birth_date, birth_place)
+
+# tournament table
+tw_data %>% 
+  select_distinct(tournament, tournament_date)
+
+# result table
+tw_data %>% 
+  select_distinct(tournament, winner = golfer, final_score)
+```
+
+
+## 5. A single observational unit is stored in multiple tables
+
+Have you ever worked with US government data before?
+
+![newman_is_angry](memes//newman_angry.jpg)\
+
+<br>
+
+## 5. A single observational unit is stored in multiple tables
+
+Have you ever worked with US government data before? If so, you know this is common:
+
+```{r}
+t_15 <- data_frame(year = 2015, cpi = 237)
+t_16 <- data_frame(year = 2016, cpi = 240)
+t_17 <- data_frame(year = 2017, cpi = 245)
+```
+
+```{r echo = FALSE}
+kable(list(t_15, t_16, t_17))
+```
+
+Not hard to remedy, but still annoying and potentially dangerous. Easy fix for _consistent_ tables: [`dplyr::bind_rows`](https://dplyr.tidyverse.org/reference/bind.html)
+
+```{r echo = TRUE}
+bind_rows(t_15, t_16, t_17)
+```
+
+## Displaying tidy data
+
+## OPTIONAL - Organizing data in spreadsheets
+
+
+# Conclusion
+
+## 4 most important things to remember
+
+ 1. Put each dataset in a table 
+    - [`data.frame`](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) (`stringsAsFactors`? printing to a console? lazy evaluation?)
+    - [`tibble`](https://tibble.tidyverse.org/) (AKA the nice version of `data.frame`)
+ 1. Put each variable in a column
+ 1. Ask yourself the following questions
+    - What are the rows of my dataset (level of detail)?
+    - Is each column a _distinct_ variable?
+    - How hard would it be to calculate a grouped aggregation?
+ 1. Structure and tidy up your data to be manipulated by a computer. Ignore urges to make it easily viewed by a human.
+
+## Wrapping up
+
+> If I had one thing to tell biologists learning bioinformatics, it would be "write code for humans, write data for computers". - [Vince Buffalo](https://twitter.com/vsbuffalo/status/358699162679787521)
+
+## Other resources
+
