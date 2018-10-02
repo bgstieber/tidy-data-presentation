@@ -92,7 +92,14 @@ kable_latex <- function(data, scale_down = FALSE){
 
 ## GitHub
 
-Find the repository for this presentation [on my GitHub](https://github.com/bgstieber/tidy-data-presentation)
+You can find the repository for this presentation [on my GitHub](https://github.com/bgstieber/tidy-data-presentation).
+
+The only package needed for this presentation:
+
+```{r echo = TRUE, message = FALSE, warning=FALSE}
+library(tidyverse)
+```
+
 
 # Introduction
 
@@ -131,6 +138,7 @@ knitr::include_graphics('./memes/fed_up_niles2.png')
  - Consistency
  - Rely on vectorization (in `R` and `pandas`), and expected/desired behavior in grouped aggregation (excel, tableau)
  - Foresight
+ - It's never been easier
 
 ## What is tidy data
 
@@ -372,19 +380,50 @@ bind_rows(t_15, t_16, t_17)
 
 How can we make it easier to scan raw values in a data table?
 
-  >- Determine the roles of variables in your analysis (fixed by design of experiment vs. measured during course of experiment)
-  >- Fixed variables should come first, then measured variables
+- Determine the roles of variables in your analysis (fixed by design of experiment vs. measured during course of experiment)
+- Fixed variables should come first, then measured variables
     + Order from L-R by degree of fixed-ness. The "most fixed" variables are the key describers of an observation, and are useful when we're trying to scan values.
-  >- Put related variables next to each other
+- Put related variables next to each other
+- Order rows based on the first variable and then break ties with the second and subsequent (fixed) variables after that.
 
-Using this scheme, we can order rows based on the first variable and then breaking ties with the second and subsequent (fixed) variables after that.
 
-## OPTIONAL - Organizing data in spreadsheets
+## Another Aside: Organizing data in spreadsheets
 
+[Broman & Woo (2018)](https://doi.org/10.1080/00031305.2017.1375989) wrote a stellar paper with 12 tips for organizing data in spreadsheets for sharing, analysis, reproducibility, and collaboration. After reading the tidy data paper, I would recommend reading it.
+
+\begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+    
+        \begin{itemize}
+            \item Be consistent
+            \begin{itemize}
+               \item Codes, NA, names, ID, layout, files, dates, phrases
+            \end{itemize}
+            \item Write dates like YYYY-MM-DD
+            \item Do not leave any cells empty
+            \item Put just one thing in a cell
+            \item Organize the data as a single rectangle (with subjects as rows, variables as columns, and with a single header row)
+            \item Create a data dictionary
+        \end{itemize}
+
+    \end{column}
+    \begin{column}{0.48\textwidth}
+    
+        \begin{itemize}
+            \item Do not include calculations in the raw data files
+            \item Do not use font color or highlighting as data
+            \item Choose good names for things
+            \item Make backups
+            \item Use data validation to avoid data entry errors
+            \item Save the data in plain text files
+        \end{itemize}
+        
+    \end{column}
+\end{columns}
 
 # Conclusion
 
-## Four most important things to remember
+## Four key takeaways
 
  1. Put each dataset in a table 
     - [`data.frame`](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) (`stringsAsFactors`? printing to a console? lazy evaluation?)
@@ -408,9 +447,9 @@ Using this scheme, we can order rows based on the first variable and then breaki
 There's a bevy of resources I consulted for this presentation. I've arranged these in descending order of importance.
 
   >- [_The_ tidy data paper](http://vita.had.co.nz/papers/tidy-data.html)
+  >- [Data Organization in Spreadsheets](https://www.tandfonline.com/doi/full/10.1080/00031305.2017.1375989)
   >- [Informal version of tidy data paper](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
   >- [Practical introduction to tidy data](http://r4ds.had.co.nz/tidy-data.html)
-  >- [Data Organization in Spreadsheets](https://www.tandfonline.com/doi/full/10.1080/00031305.2017.1375989)
   >- [Tidy data presentation](http://stat405.had.co.nz/lectures/18-tidy-data.pdf)
   >- [Tidy data analysis (an extension of the tidy data paradigm)](https://simplystatistics.org/2017/05/24/toward-tidy-analysis/)
   >- [Tidy Data in Python](http://www.jeannicholashould.com/tidy-data-in-python.html)
