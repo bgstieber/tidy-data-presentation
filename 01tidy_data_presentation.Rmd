@@ -189,7 +189,7 @@ We'll go through examples of each of the five.
 I'd like you think about the following questions:
 
  >- Why is it untidy?
- >- -	How would you work with it without tidying it first (e.g. lots of calculated flags, hard coding, black magic)?
+ >- How would you work with it without tidying it first (e.g. lots of calculated flags, hard coding, black magic)?
  >- What are the variables, values, and observations?
  >- How can we tidy it up?
  >-	How would you work with it in its tidy form?
