@@ -105,15 +105,15 @@ library(tidyverse)
 
 ## Goals for this talk
 
-My goal is for you to walk away from this presentation with an understanding of:
+My goal is for you to walk away with an understanding of:
 
  - Tidy data philosophy
  - [__`tidyverse`__](https://www.tidyverse.org/) data terminology
  - Common types of _untidy_ data
- - Operations for tidying up
+ - Operations for tidying data in __`R`__
  - Displaying tidy data
 
-## What this is based off of
+## Where did this come from?
 
 Most of what follows is based off of [Hadley Wickham's paper](http://vita.had.co.nz/papers/tidy-data.pdf) on tidy data. I would strongly recommend reading that paper. 
 
@@ -140,7 +140,7 @@ knitr::include_graphics('./memes/fed_up_niles2.png')
  - Foresight
  - It's never been easier
 
-## What is tidy data
+## What is tidy data?
 
 There are three qualities a dataset must have to be considered "tidy"
 
@@ -164,8 +164,8 @@ Getting data into a tidy format first requires understanding the three qualities
 
 Then, we can get most forms of untidy data to be tidy by utilizing four verbs of data tidying
 
-  - [`gather`](https://tidyr.tidyverse.org/reference/gather.html): takes multiple columns, and gathers them into key-value pairs. it makes "wide" data longer
-  - [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads in to multiple columns. it makes "long" data wider
+  - [`gather`](https://tidyr.tidyverse.org/reference/gather.html): takes multiple columns, and gathers them into key-value pairs - it makes "wide" data longer
+  - [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads in to multiple columns - it makes "long" data wider
   - [`separate`](https://tidyr.tidyverse.org/reference/separate.html): turns a single character column into multiple columns, based on a regular expression or specific positions
   - [`unite`](https://tidyr.tidyverse.org/reference/unite.html): concatenate multiple columns into one
 
@@ -277,7 +277,7 @@ mkt_untidy %>%
   kable_latex()
 ```
 
-How would we tidy up? Think carefully about that the __observation__ is for this data
+How would we tidy up? Think carefully about what the __observation__ is for this data.
 
 ## Tidying #3 (1/2)
 
@@ -423,7 +423,7 @@ How can we make it easier to scan raw values in a data table?
 
 # Conclusion
 
-## Four key takeaways
+## Four tips to get tidy
 
  1. Put each dataset in a table 
     - [`data.frame`](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) (`stringsAsFactors`? printing to a console? lazy evaluation?)
