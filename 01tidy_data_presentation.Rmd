@@ -115,7 +115,7 @@ My goal is for you to walk away with an understanding of:
 
 ## Where did this come from?
 
-Most of what follows is based off of [Hadley Wickham's paper](http://vita.had.co.nz/papers/tidy-data.pdf) on tidy data. I would strongly recommend reading that paper. 
+Most of what follows is based off of [Hadley Wickham's paper](http://vita.had.co.nz/papers/tidy-data.pdf) on tidy data.
 
 If you're looking for a practical introduction, [Hadley Wickham has one of those too](http://r4ds.had.co.nz/tidy-data.html).
 
@@ -142,7 +142,7 @@ knitr::include_graphics('./memes/fed_up_niles2.png')
 
 ## What is tidy data?
 
-There are three qualities a dataset must have to be considered "tidy"
+There are three qualities a dataset must have to be considered "tidy":
 
  1. Each variable forms a column.
  1. Each observation forms a row.
@@ -183,6 +183,16 @@ Here are the five most common types of untidy data you're likely to experience "
  >- A single observational unit is stored in multiple tables.
 
 We'll go through examples of each of the five.
+
+## For each untidy dataset...
+
+I'd like you think about the following questions:
+
+ >- Why is it untidy?
+ >- -	How would you work with it without tidying it first (e.g. lots of calculated flags, hard coding, black magic)?
+ >- What are the variables, values, and observations?
+ >- How can we tidy it up?
+ >-	How would you work with it in its tidy form?
 
 ## 
 
