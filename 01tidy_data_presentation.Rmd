@@ -154,7 +154,7 @@ There are three qualities a dataset must have to be considered "tidy":
  >- Dataset: a collection of values (e.g. [iris data](https://en.wikipedia.org/wiki/Iris_flower_data_set))
  >- Variable: all values that measure the same underlying attribute (e.g. height, width)
  >- Values: a specific measurement or attribute for a variable (e.g. $100)
- >- Observation:  all values measured on the same unit (like a person, or a day, or a race) across variables
+ >- Observation:  all values measured on the same unit (like a person, or a day, or a game) across variables
 
 It's usually easy to figure out things like _observations_ and _variables_ for a given dataset, but defining them in the abstract can be difficult. 
 
@@ -391,7 +391,7 @@ bind_rows(t_15, t_16, t_17)
 
 # Two Asides: Displaying and Organizing Data
 
-## An Aside: Displaying tidy data
+## Displaying tidy data
 
 How can we make it easier to scan raw values in a data table?
 
@@ -402,7 +402,7 @@ How can we make it easier to scan raw values in a data table?
 - Order rows based on the first variable and then break ties with the second and subsequent (fixed) variables after that.
 
 
-## Another Aside: Organizing data in spreadsheets
+## Organizing data in spreadsheets
 
 [Broman & Woo (2018)](https://doi.org/10.1080/00031305.2017.1375989) wrote a stellar paper with 12 tips for organizing data in spreadsheets for sharing, analysis, reproducibility, and collaboration. After reading the tidy data paper, I would recommend reading it.
 
@@ -442,7 +442,7 @@ How can we make it easier to scan raw values in a data table?
 
  1. Put each dataset in a table 
     - [`data.frame`](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) (`stringsAsFactors`? printing to a console? lazy evaluation?)
-    - [`tibble`](https://tibble.tidyverse.org/) (AKA the nice version of `data.frame`)
+    - [`tibble`](https://tibble.tidyverse.org/) (the nice version of `data.frame`)
  1. Put each variable in a column
  1. Ask yourself the following questions
     - What are the rows of my dataset (observation, level of detail)?
