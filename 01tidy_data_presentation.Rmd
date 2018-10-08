@@ -160,7 +160,7 @@ It's usually easy to figure out things like _observations_ and _variables_ for a
 
 ## The Data Tidying Operations
 
-Getting data into a tidy format first requires understanding the three qualities of tidy data, as well as the five most common types of untidy data.
+Getting data into a tidy format requires understanding the three qualities of tidy data, as well as the five most common types of untidy data (more on these shortly).
 
 Then, we can get most forms of untidy data to be tidy by utilizing four verbs of data tidying
 
@@ -205,7 +205,8 @@ I'd like you think about the following questions:
 The first dataset we'll look at comes from the WHO and displays the number of TB cases for three countries in two years.
 
 ```{r}
-kable_latex(table4a)
+kable_latex(table4a %>% mutate_if(is.numeric, 
+                                  scales::comma))
 tb_data <- table4a
 ```
 
@@ -241,7 +242,7 @@ hec_untidy %>%
     kable_latex()
 ```
 
-The `HairEyeColor` __variable__ actually has __values__ for three separate __variables__ stored within it.
+The `Hair - Eye - Sex` __variable__ actually has __values__ for three separate __variables__ stored within it.
 
 How would we tidy up?
 
@@ -320,7 +321,9 @@ mkt_untidy %>%
 
 This is one that gets violated a lot. Our desire is to have _all_ the data in one spot. 
 
-Data should be __normalized__ during the process of tidying, it is not until we reach the analytical part of our data science process that denormalization should be preferred.
+First: tidy while normalized
+
+Then: analyze while de-normalized
 
 ```{r}
 tw_data <- data_frame(
@@ -380,11 +383,13 @@ t_17 <- data_frame(year = 2017, cpi = 245)
 kable(list(t_15, t_16, t_17))
 ```
 
-Not hard to remedy, but still annoying and potentially dangerous. Easy fix for _consistent_ tables: [`dplyr::bind_rows`](https://dplyr.tidyverse.org/reference/bind.html)
+Not hard to remedy, but still annoying and __potentially dangerous__. Easy fix for _consistent_ tables: [`dplyr::bind_rows`](https://dplyr.tidyverse.org/reference/bind.html)
 
 ```{r echo = TRUE}
 bind_rows(t_15, t_16, t_17)
 ```
+
+# Two Asides: Displaying and Organizing Data
 
 ## An Aside: Displaying tidy data
 
