@@ -10,11 +10,11 @@ library(scales)
 library(extrafont)
 library(knitr)
 #options(kableExtra.auto_format = FALSE)
-options(knitr.table.format = "latex")
-library(kableExtra)
+# options(knitr.table.format = "latex")
+# library(kableExtra)
 loadfonts()
-
-options(tibble.print_max = 3, tibble.print_min=3)
+# 
+# options(tibble.print_max = 3, tibble.print_min=3)
 
 theme_bgs <- function(){
   theme_bw() +
@@ -34,26 +34,26 @@ theme_bgs <- function(){
 
 theme_set(theme_bgs())
 
-kable_latex <- function(data, scale_down = FALSE){
-  if(scale_down){
-    data %>%
-      kable(align = 'l', booktabs = T) %>%
-      kable_styling(latex_options = c("scale_down"),
-                    position = 'center')
-  }else{
-    data %>%
-      kable(align = 'l', booktabs = T) %>%
-      kable_styling(position = 'center')
-  }
-  
-}
+# kable <- function(data, scale_down = FALSE){
+#   if(scale_down){
+#     data %>%
+#       kable(align = 'l', booktabs = T) %>%
+#       kable_styling(latex_options = c("scale_down"),
+#                     position = 'center')
+#   }else{
+#     data %>%
+#       kable(align = 'l', booktabs = T) %>%
+#       kable_styling(position = 'center')
+#   }
+#   
+# }
 
 library(tidyverse)
-knitr::include_graphics('./memes/hadley_tidy_data.jpg')
-knitr::include_graphics('./memes/fed_up_niles2.png')
+# knitr::include_graphics('./memes/hadley_tidy_data.jpg')
+# knitr::include_graphics('./memes/fed_up_niles2.png')
 
 ## First untidy example
-kable_latex(table4a %>% mutate_if(is.numeric, 
+kable(table4a %>% mutate_if(is.numeric, 
                                   scales::comma))
 tb_data <- table4a
 tb_data %>%
@@ -68,7 +68,7 @@ hec_untidy <- HairEyeColor %>%
     head()
 
 hec_untidy %>%
-    kable_latex()
+    kable()
 hec_untidy %>%
   separate(col = `Hair - Eye - Sex`,
            into = c('hair', 'eye', 'sex'),
@@ -91,7 +91,7 @@ mkt_untidy <- EuStockMarkets %>%
   .[, 1:7]
 
 mkt_untidy %>%
-  kable_latex()
+  kable()
 
 mkt_untidy %>%
     gather(day, price, starts_with('d')) %>% # wide to long
@@ -117,7 +117,7 @@ tw_data <- data_frame(
   final_score = c("-27", "-21", "-14", "-18")) 
 
 tw_data %>%
-  kable_latex(scale_down = TRUE)
+  kable(scale_down = TRUE)
 # helper function
 select_distinct <- function(data, ...){
   select(data, ...) %>%
