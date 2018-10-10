@@ -94,7 +94,7 @@ kable_latex <- function(data, scale_down = FALSE){
 
 You can find the repository for this presentation [on my GitHub](https://github.com/bgstieber/tidy-data-presentation).
 
-The only package needed for this presentation:
+The only package needed:
 
 ```{r echo = TRUE, message = FALSE, warning=FALSE}
 library(tidyverse)
@@ -108,7 +108,7 @@ library(tidyverse)
 My goal is for you to walk away with an understanding of:
 
  - Tidy data philosophy
- - [__`tidyverse`__](https://www.tidyverse.org/) data terminology
+ - Some [__`tidyverse`__](https://www.tidyverse.org/) data terminology
  - Common types of _untidy_ data
  - Operations for tidying data in __`R`__
  - Displaying tidy data
@@ -123,7 +123,7 @@ If you're looking for a practical introduction, [Hadley Wickham has one of those
 knitr::include_graphics('./memes/hadley_tidy_data.jpg')
 ```
 
-I also borrow a bit from other resources (which will be listed at the end), as well as my own experience working with tidy _and_ untidy datasets.
+I also borrow from other resources (listed at the end), as well as my own experience working with tidy _and_ untidy datasets.
 
 ## But mostly...
 
@@ -165,7 +165,7 @@ Getting data into a tidy format requires understanding the three qualities of ti
 Then, we can get most forms of untidy data to be tidy by utilizing four verbs of data tidying
 
   - [`gather`](https://tidyr.tidyverse.org/reference/gather.html): takes multiple columns, and gathers them into key-value pairs - it makes "wide" data longer
-  - [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads in to multiple columns - it makes "long" data wider
+  - [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads into multiple columns - it makes "long" data wider
   - [`separate`](https://tidyr.tidyverse.org/reference/separate.html): turns a single character column into multiple columns, based on a regular expression or specific positions
   - [`unite`](https://tidyr.tidyverse.org/reference/unite.html): concatenate multiple columns into one
 
@@ -186,7 +186,7 @@ We'll go through examples of each of the five.
 
 ## For each untidy dataset...
 
-I'd like you think about the following questions:
+Think about the following questions:
 
  >- Why is it untidy?
  >- How would you work with it without tidying it first (e.g. lots of calculated flags, hard coding, black magic)?
@@ -212,9 +212,7 @@ tb_data <- table4a
 
 This data is too _wide_, as `1999` and `2000` are __values__ for a __variable__ we could call `year`.
 
-Although difficult to analyze, this form of data storage is helpful for presentation and data entry.
-
-How would we tidy up?
+Although difficult to analyze, this format is helpful for presentation and data entry.
 
 ## Tidying # 1
 
@@ -244,7 +242,6 @@ hec_untidy %>%
 
 The `Hair - Eye - Sex` __variable__ actually has __values__ for three separate __variables__ stored within it.
 
-How would we tidy up?
 
 ## Tidying #2 (1/2)
 
@@ -253,7 +250,8 @@ We need to [`separate`](https://tidyr.tidyverse.org/reference/separate.html) one
 ```{r echo = TRUE}
 hec_untidy %>%
   separate(col = `Hair - Eye - Sex`,
-           into = c('hair', 'eye', 'sex'))
+           into = c('hair', 'eye', 'sex'),
+           sep = ' - ') # actually not needed
 ```
 
 ## Tidying #2 (2/2)
@@ -263,7 +261,8 @@ Could go a step further and use [`uncount`](https://tidyr.tidyverse.org/referenc
 ```{r echo = TRUE}
 hec_untidy %>%
   separate(col = `Hair - Eye - Sex`,
-           into = c('hair', 'eye', 'sex')) %>%
+           into = c('hair', 'eye', 'sex'),
+           sep = ' - ') %>% # actually not needed
   uncount(n)
 ```
 
@@ -288,11 +287,11 @@ mkt_untidy %>%
   kable_latex()
 ```
 
-How would we tidy up? Think carefully about what the __observation__ is for this data.
+Think carefully about what the __observation__ is for this data.
 
 ## Tidying #3 (1/2)
 
-What is the "observation" (__a day__ or a stock on a day)?
+What is the "observation" (a __day__ or a stock on a day)?
 
 ```{r echo = TRUE}
 mkt_untidy %>%
@@ -321,7 +320,7 @@ mkt_untidy %>%
 
 This is one that gets violated a lot. Our desire is to have _all_ the data in one spot. 
 
-First: tidy while normalized
+First: tidy up while normalized
 
 Then: analyze while de-normalized
 
@@ -338,7 +337,6 @@ tw_data %>%
   kable_latex(scale_down = TRUE)
 ```
 
-How would you tidy up?
 
 ## Tidying #4 (use [`dplyr::select`](https://dplyr.tidyverse.org/reference/select.html))
 
@@ -404,7 +402,7 @@ How can we make it easier to scan raw values in a data table?
 
 ## Organizing data in spreadsheets
 
-[Broman & Woo (2018)](https://doi.org/10.1080/00031305.2017.1375989) wrote a stellar paper with 12 tips for organizing data in spreadsheets for sharing, analysis, reproducibility, and collaboration. After reading the tidy data paper, I would recommend reading it.
+[Broman & Woo (2018)](https://doi.org/10.1080/00031305.2017.1375989) wrote a short paper with 12 tips for organizing data in spreadsheets for sharing, analysis, reproducibility, and collaboration. After reading the tidy data paper, I would recommend reading it.
 
 \begin{columns}[T]
     \begin{column}{0.48\textwidth}
@@ -444,7 +442,7 @@ How can we make it easier to scan raw values in a data table?
     - [`data.frame`](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) (`stringsAsFactors`? printing to a console? lazy evaluation?)
     - [`tibble`](https://tibble.tidyverse.org/) (the nice version of `data.frame`)
  1. Put each variable in a column
- 1. Ask yourself the following questions
+ 1. Ask some questions
     - What are the rows of my dataset (observation, level of detail)?
     - Is each column a _distinct_ variable?
     - How hard would it be to calculate a grouped aggregation?
