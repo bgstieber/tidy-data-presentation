@@ -107,6 +107,29 @@ mkt_untidy %>%
     unite(date, year, month, day, sep = '-') %>% # 3 cols to 1
     mutate(date = lubridate::ymd(date))
 
+## another example from tidy data paper
+
+fpath <- "https://raw.githubusercontent.com/tidyverse/tidyr/master/vignettes/weather.csv"
+
+(weather <- read_csv(fpath))
+# page 10 (subset of full data)
+(weather_sub <- weather[,1:12])
+# This is almost tidy, but instead of values, the element
+# column contains names of variables.
+# Missing values are dropped to conserve space.
+(weather_sub2 <- weather_sub %>%
+  gather(day, value, starts_with('d')) %>%
+  mutate(day = gsub('d', '', day)) %>%
+  unite(date, year, month, day, sep = '-') %>%
+  mutate(date = as.Date(date, '%Y-%m-%d')) %>%
+  na.omit())
+
+# Each row represents the meteorological measurements for a single day. There
+# are two measured variables, minimum (tmin) and maximum (tmax) temperature; all other
+# variables are fixed.
+weather_sub2 %>%
+  spread(element, value)
+
 ## Fourth untidy example
 tw_data <- data_frame(
   golfer = 'Tiger Woods',
