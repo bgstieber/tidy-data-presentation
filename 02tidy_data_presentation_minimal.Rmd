@@ -271,7 +271,17 @@ Think carefully about what the __observation__ is for this data.
 
 ## Tidying #3
 
-blah blah blah
+
+```{r}
+weather_sub %>%
+    gather(variable, value, starts_with('d')) %>%
+    spread(element, value) %>%
+    mutate(variable = gsub('d', '', variable)) %>%
+    unite(date, year ,month, variable, sep = '-') %>%
+    mutate(date = as.Date(date, '%Y-%m-%d')) %>%
+  kable_latex()
+```
+
 
 
 ## 4. Multiple types of observational units are stored in the same table
