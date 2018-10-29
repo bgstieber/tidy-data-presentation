@@ -110,8 +110,7 @@ My goal is for you to walk away with an understanding of:
  - Tidy data philosophy
  - Some [__`tidyverse`__](https://www.tidyverse.org/) data terminology
  - Common types of _untidy_ data
- - Operations for tidying data in __`R`__
- - Displaying tidy data
+ - Displaying and organizing tidy data
 
 ## Where did this come from?
 
@@ -136,7 +135,7 @@ knitr::include_graphics('./memes/fed_up_niles2.png')
 ## Why tidy data?
 
  - Consistency
- - Rely on vectorization (in `R` and `pandas`), and expected/desired behavior in grouped aggregation (excel, tableau)
+ - Rely on vectorization (in common data tools like `R` and `pandas`), and expected/desired behavior in grouped aggregation (excel, tableau)
  - Foresight
  - It's never been easier
 
@@ -164,10 +163,10 @@ Getting data into a tidy format requires understanding the three qualities of ti
 
 Then, we can get most forms of untidy data to be tidy by utilizing four verbs of data tidying
 
-  - [`gather`](https://tidyr.tidyverse.org/reference/gather.html): takes multiple columns, and gathers them into key-value pairs - it makes "wide" data longer
-  - [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads into multiple columns - it makes "long" data wider
-  - [`separate`](https://tidyr.tidyverse.org/reference/separate.html): turns a single character column into multiple columns, based on a regular expression or specific positions
-  - [`unite`](https://tidyr.tidyverse.org/reference/unite.html): concatenate multiple columns into one
+  - [`gather`](https://tidyr.tidyverse.org/reference/gather.html): takes multiple columns, and gathers them into key-value pairs - it makes "wide" data longer (like [`UNPIVOT`](https://www.sqlservercurry.com/2011/01/unpivot-example-in-sql-server.html) in __`SQL`__)
+  - [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads into multiple columns - it makes "long" data wider (like [`PIVOT`](https://www.techonthenet.com/sql_server/pivot.php) in __`SQL`__)
+  - [`separate`](https://tidyr.tidyverse.org/reference/separate.html): turns a single column that is character-valued into multiple columns, based on a regular expression or specific positions
+  - [`unite`](https://tidyr.tidyverse.org/reference/unite.html): concatenates multiple columns into one
 
 
 # Execution (the practice)
@@ -189,10 +188,7 @@ We'll go through examples of each of the five.
 Think about the following questions:
 
  >- Why is it untidy?
- >- How would you work with it without tidying it first (e.g. lots of calculated flags, hard coding, black magic)?
  >- What are the variables, values, and observations?
- >- How can we tidy it up?
- >-	How would you work with it in its tidy form?
 
 ## 
 
@@ -218,11 +214,12 @@ Although difficult to analyze, this format is helpful for presentation and data 
 
 Need to [`gather`](https://tidyr.tidyverse.org/reference/gather.html) columns into key-value (year-cases) pairs:
 
-```{r echo = TRUE}
+```{r echo = FALSE}
 tb_data %>%
     gather(key = year, 
            value = tb_cases, 
-           -country) 
+           -country) %>%
+  kable_latex()
 ```
 
 
@@ -243,29 +240,17 @@ hec_untidy %>%
 The `Hair - Eye - Sex` __variable__ actually has __values__ for three separate __variables__ stored within it.
 
 
-## Tidying #2 (1/2)
+## Tidying #2
 
 We need to [`separate`](https://tidyr.tidyverse.org/reference/separate.html) one column (`Hair - Eye - Sex`) into multiple columns (`hair`, `eye`, `sex`)
 
-```{r echo = TRUE}
+```{r echo = FALSE}
 hec_untidy %>%
   separate(col = `Hair - Eye - Sex`,
            into = c('hair', 'eye', 'sex'),
-           sep = ' - ') # actually not needed
+           sep = ' - ') %>%
+  kable_latex()# actually not needed
 ```
-
-## Tidying #2 (2/2)
-
-Could go a step further and use [`uncount`](https://tidyr.tidyverse.org/reference/uncount.html) (the opposite of [`dplyr::count`](https://dplyr.tidyverse.org/reference/tally.html)):
-
-```{r echo = TRUE}
-hec_untidy %>%
-  separate(col = `Hair - Eye - Sex`,
-           into = c('hair', 'eye', 'sex'),
-           sep = ' - ') %>% # actually not needed
-  uncount(n)
-```
-
 
 
 ## 3. Variables are stored in both rows and columns
@@ -273,48 +258,21 @@ hec_untidy %>%
 This is the most complicated form of untidy data, and typically requires a bit more massaging.
 
 ```{r}
-mkt_untidy <- EuStockMarkets %>% 
-  as_data_frame() %>%
-  head(31) %>%
-  mutate(day = factor(paste0('d', 1:31), paste0('d', 1:31)),
-         year = 2000,
-         month = 1) %>%
-  gather(stock, value, -day, -month, -year)%>%
-  spread(day, value) %>%
-  .[, 1:7]
+fpath <- "https://raw.githubusercontent.com/tidyverse/tidyr/master/vignettes/weather.csv"
 
-mkt_untidy %>%
-  kable_latex()
+weather <- read_csv(fpath)
+# page 10 (subset of full data)
+weather_sub <- weather[3:6,1:9]
+
+weather_sub %>% kable_latex()
 ```
 
 Think carefully about what the __observation__ is for this data.
 
-## Tidying #3 (1/2)
+## Tidying #3
 
-What is the "observation" (a __day__ or a stock on a day)?
+blah blah blah
 
-```{r echo = TRUE}
-mkt_untidy %>%
-    gather(day, price, starts_with('d')) %>% # wide to long
-    spread(stock, price) %>% # long back to wide-ish
-    mutate(day = gsub('d', '', day)) %>% # remove "d"
-    unite(date, year, month, day, sep = '-') %>% # 3 cols to 1
-    mutate(date = lubridate::ymd(date))
-```
-
-
-## Tidying #3 (2/2)
-
-What is the "observation" (a day or a __stock on a day__)?
-
-```{r echo = TRUE}
-mkt_untidy %>%
-    gather(day, price, starts_with('d')) %>% # wide to long
-    # spread(stock, price) %>% # long back to wide-ish
-    mutate(day = gsub('d', '', day)) %>% # remove "d"
-    unite(date, year, month, day, sep = '-') %>% # 3 cols to 1
-    mutate(date = lubridate::ymd(date))
-```
 
 ## 4. Multiple types of observational units are stored in the same table
 
@@ -337,27 +295,6 @@ tw_data %>%
   kable_latex(scale_down = TRUE)
 ```
 
-
-## Tidying #4 (use [`dplyr::select`](https://dplyr.tidyverse.org/reference/select.html))
-
-```{r echo = TRUE, results = 'hide'}
-# helper function
-select_distinct <- function(data, ...){
-  select(data, ...) %>%
-    distinct()
-}
-# golfer table
-golfer <- tw_data %>% 
-  select_distinct(golfer, birth_date, birth_place)
-
-# tournament table
-tournament <- tw_data %>% 
-  select_distinct(tournament, tournament_date)
-
-# result table
-tournament_results <- tw_data %>% 
-  select_distinct(tournament, winner = golfer, final_score)
-```
 
 ## 5. A single observational unit is stored in multiple tables
 
@@ -383,11 +320,11 @@ kable(list(t_15, t_16, t_17))
 
 Not hard to remedy, but still annoying and __potentially dangerous__. Easy fix for _consistent_ tables: [`dplyr::bind_rows`](https://dplyr.tidyverse.org/reference/bind.html)
 
-```{r echo = TRUE}
-bind_rows(t_15, t_16, t_17)
+```{r echo = FALSE}
+bind_rows(t_15, t_16, t_17) %>% kable_latex()
 ```
 
-# Two Asides: Displaying and Organizing Data
+# Displaying and Organizing Data
 
 ## Displaying tidy data
 
@@ -439,8 +376,6 @@ How can we make it easier to scan raw values in a data table?
 ## Four tips to get tidy
 
  1. Put each dataset in a table 
-    - [`data.frame`](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) (`stringsAsFactors`? printing to a console? lazy evaluation?)
-    - [`tibble`](https://tibble.tidyverse.org/) (the nice version of `data.frame`)
  1. Put each variable in a column
  1. Ask some questions
     - What are the rows of my dataset (observation, level of detail)?
