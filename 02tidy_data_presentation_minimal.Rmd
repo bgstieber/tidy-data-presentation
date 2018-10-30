@@ -123,6 +123,8 @@ knitr::include_graphics('./memes/fed_up_niles2.png')
 
 # Idea (the theory)
 
+<!--
+
 ## Why tidy data?
 
  - Consistency
@@ -130,7 +132,11 @@ knitr::include_graphics('./memes/fed_up_niles2.png')
  - Foresight
  - It's never been easier
 
+-->
+
 ## What is tidy data?
+
+Tidy data is __consistent__, __works well with common computational tools__, and __provides a guide for data analysis__.
 
 There are three qualities a dataset must have to be considered "tidy":
 
@@ -148,6 +154,7 @@ There are three qualities a dataset must have to be considered "tidy":
 
 It's usually easy to figure out things like _observations_ and _variables_ for a given dataset, but defining them in the abstract can be difficult. 
 
+<!--
 ## The Data Tidying Operations
 
 Getting data into a tidy format requires understanding the three qualities of tidy data, as well as the five most common types of untidy data (more on these shortly).
@@ -158,7 +165,7 @@ Then, we can get most forms of untidy data to be tidy by utilizing four verbs of
   >- [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads into multiple columns - it makes "long" data wider (like [`PIVOT`](https://www.techonthenet.com/sql_server/pivot.php) in __`SQL`__)
   >- [`separate`](https://tidyr.tidyverse.org/reference/separate.html): turns a single column that is character-valued into multiple columns, based on a regular expression or specific positions
   >- [`unite`](https://tidyr.tidyverse.org/reference/unite.html): concatenates multiple columns into one
-
+-->
 
 # Execution (the practice)
 
@@ -174,12 +181,16 @@ Here are the five most common types of untidy data you're likely to experience "
 
 We'll go through examples of three of the five.
 
+<!--
+
 ## For each untidy dataset...
 
 Think about the following questions:
 
  >- Why is it untidy?
  >- What are the variables, values, and observations?
+
+-->
 
 ## 
 
@@ -203,7 +214,7 @@ Although difficult to analyze, this format is helpful for presentation and data 
 
 ## Tidying # 1
 
-Need to [`gather`](https://tidyr.tidyverse.org/reference/gather.html) columns into key-value (year-cases) pairs:
+Need to [`gather`](https://tidyr.tidyverse.org/reference/gather.html) (like [`UNPIVOT`](https://www.sqlservercurry.com/2011/01/unpivot-example-in-sql-server.html) in __`SQL`__) columns into key-value (year-cases) pairs:
 
 ```{r echo = FALSE}
 tb_data %>%
@@ -263,7 +274,7 @@ Think carefully about what the __observation__ is for this data.
 
 ## Tidying #3
 
-Requires [`gather`](https://tidyr.tidyverse.org/reference/gather.html)ing, [`spread`](https://tidyr.tidyverse.org/reference/spread.html)ing, and [`unite`](https://tidyr.tidyverse.org/reference/unite.html)-ing.
+Requires [`gather`](https://tidyr.tidyverse.org/reference/gather.html)ing, [`spread`](https://tidyr.tidyverse.org/reference/spread.html)ing (like [`PIVOT`](https://www.techonthenet.com/sql_server/pivot.php) in __`SQL`__), and [`unite`](https://tidyr.tidyverse.org/reference/unite.html)-ing.
 
 ```{r}
 weather_sub %>%
