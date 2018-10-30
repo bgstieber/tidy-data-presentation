@@ -112,11 +112,14 @@ knitr::include_graphics('./memes/hadley_tidy_data.jpg')
 
 I also borrow from other resources (listed at the end), as well as my own experience working with tidy _and_ untidy datasets.
 
+<!--
+
 ## But mostly...
 
 ```{r echo=FALSE, out.width='100%'}
 knitr::include_graphics('./memes/fed_up_niles2.png')
 ```
+--> 
 
 # Idea (the theory)
 
@@ -151,10 +154,10 @@ Getting data into a tidy format requires understanding the three qualities of ti
 
 Then, we can get most forms of untidy data to be tidy by utilizing four verbs of data tidying
 
-  - [`gather`](https://tidyr.tidyverse.org/reference/gather.html): takes multiple columns, and gathers them into key-value pairs - it makes "wide" data longer (like [`UNPIVOT`](https://www.sqlservercurry.com/2011/01/unpivot-example-in-sql-server.html) in __`SQL`__)
-  - [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads into multiple columns - it makes "long" data wider (like [`PIVOT`](https://www.techonthenet.com/sql_server/pivot.php) in __`SQL`__)
-  - [`separate`](https://tidyr.tidyverse.org/reference/separate.html): turns a single column that is character-valued into multiple columns, based on a regular expression or specific positions
-  - [`unite`](https://tidyr.tidyverse.org/reference/unite.html): concatenates multiple columns into one
+  >- [`gather`](https://tidyr.tidyverse.org/reference/gather.html): takes multiple columns, and gathers them into key-value pairs - it makes "wide" data longer (like [`UNPIVOT`](https://www.sqlservercurry.com/2011/01/unpivot-example-in-sql-server.html) in __`SQL`__)
+  >- [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads into multiple columns - it makes "long" data wider (like [`PIVOT`](https://www.techonthenet.com/sql_server/pivot.php) in __`SQL`__)
+  >- [`separate`](https://tidyr.tidyverse.org/reference/separate.html): turns a single column that is character-valued into multiple columns, based on a regular expression or specific positions
+  >- [`unite`](https://tidyr.tidyverse.org/reference/unite.html): concatenates multiple columns into one
 
 
 # Execution (the practice)
@@ -337,7 +340,6 @@ How can we make it easier to scan raw values in a data table?
     + Order from L-R by degree of fixed-ness. The "most fixed" variables are the key describers of an observation, and are useful when we're trying to scan values.
 - Put related variables next to each other
 - Order rows based on the first variable and then break ties with the second and subsequent (fixed) variables after that.
-
 
 ## Organizing data in spreadsheets
 
