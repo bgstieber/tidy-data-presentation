@@ -90,25 +90,13 @@ kable_latex <- function(data, scale_down = FALSE){
 
 ```
 
-## GitHub
-
-You can find the repository for this presentation [on my GitHub](https://github.com/bgstieber/tidy-data-presentation).
-
-The only package needed:
-
-```{r echo = TRUE, message = FALSE, warning=FALSE}
-library(tidyverse)
-```
-
-
 # Introduction
 
 ## Goals for this talk
 
 My goal is for you to walk away with an understanding of:
 
- - Tidy data philosophy
- - Some [__`tidyverse`__](https://www.tidyverse.org/) data terminology
+ - Tidy data philosophy and terminology
  - Common types of _untidy_ data
  - Displaying and organizing tidy data
 
@@ -116,7 +104,7 @@ My goal is for you to walk away with an understanding of:
 
 Most of what follows is based off of [Hadley Wickham's paper](http://vita.had.co.nz/papers/tidy-data.pdf) on tidy data.
 
-If you're looking for a practical introduction, [Hadley Wickham has one of those too](http://r4ds.had.co.nz/tidy-data.html).
+If you're looking for a practical introduction (in __`R`__), [Hadley Wickham has one of those too](http://r4ds.had.co.nz/tidy-data.html).
 
 ```{r echo=FALSE, out.width='35%'}
 knitr::include_graphics('./memes/hadley_tidy_data.jpg')
@@ -175,13 +163,13 @@ Then, we can get most forms of untidy data to be tidy by utilizing four verbs of
 
 Here are the five most common types of untidy data you're likely to experience "in the wild":
 
- >- Column headers are values, not variable names.
- >- Multiple variables are stored in one column.
- >- Variables are stored in both rows and columns.
+ >- __Column headers are values, not variable names.__
+ >- __Multiple variables are stored in one column.__
+ >- __Variables are stored in both rows and columns.__
  >- Multiple types of observational units are stored in the same table.
  >- A single observational unit is stored in multiple tables.
 
-We'll go through examples of each of the five.
+We'll go through examples of three of the five.
 
 ## For each untidy dataset...
 
@@ -219,6 +207,7 @@ tb_data %>%
     gather(key = year, 
            value = tb_cases, 
            -country) %>%
+  mutate_if(is.numeric, scales::comma) %>%
   kable_latex()
 ```
 
@@ -249,7 +238,7 @@ hec_untidy %>%
   separate(col = `Hair - Eye - Sex`,
            into = c('hair', 'eye', 'sex'),
            sep = ' - ') %>%
-  kable_latex()# actually not needed
+  kable_latex() # actually not needed
 ```
 
 
@@ -271,6 +260,7 @@ Think carefully about what the __observation__ is for this data.
 
 ## Tidying #3
 
+Requires [`gather`](https://tidyr.tidyverse.org/reference/gather.html)ing, [`spread`](https://tidyr.tidyverse.org/reference/spread.html)ing, and [`unite`](https://tidyr.tidyverse.org/reference/unite.html)-ing.
 
 ```{r}
 weather_sub %>%
@@ -279,10 +269,11 @@ weather_sub %>%
     mutate(variable = gsub('d', '', variable)) %>%
     unite(date, year ,month, variable, sep = '-') %>%
     mutate(date = as.Date(date, '%Y-%m-%d')) %>%
+  head() %>%
   kable_latex()
 ```
 
-
+<!--
 
 ## 4. Multiple types of observational units are stored in the same table
 
@@ -333,6 +324,7 @@ Not hard to remedy, but still annoying and __potentially dangerous__. Easy fix f
 ```{r echo = FALSE}
 bind_rows(t_15, t_16, t_17) %>% kable_latex()
 ```
+-->
 
 # Displaying and Organizing Data
 
@@ -383,19 +375,11 @@ How can we make it easier to scan raw values in a data table?
 
 # Conclusion
 
-## Four tips to get tidy
-
- 1. Put each dataset in a table 
- 1. Put each variable in a column
- 1. Ask some questions
-    - What are the rows of my dataset (observation, level of detail)?
-    - Is each column a _distinct_ variable?
-    - How hard would it be to calculate a grouped aggregation?
- 1. Structure and tidy up your data to be manipulated by a computer. Ignore urges to make it easily viewed by a human.
-
 ## Wrapping up
 
- - Code is for _humans_, data is for _computers_ ([relevant tweet from Vince Buffalo](https://twitter.com/vsbuffalo/status/358699162679787521))
+ - Put each dataset in a table, put each variable in a column, and consider how hard would it be to calculate a grouped aggregation
+ - Structure and tidy up your data to be manipulated by a computer. Ignore urges to make it easily viewed by a human.
+    - Code is for _humans_, data is for _computers_ ([relevant tweet from Vince Buffalo](https://twitter.com/vsbuffalo/status/358699162679787521))
  - Be consciously aware of your __values__, __variables__, and __observations__
  - Normalization can be your friend
  - Be assertive and understanding
