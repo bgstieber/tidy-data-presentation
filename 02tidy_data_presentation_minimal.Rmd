@@ -1,7 +1,7 @@
 ---
 title: "Tidy Data"
 author: "Brad Stieber"
-date: "`r Sys.Date()`"
+date: "Prepared for 2018-11-02 Data Solutions Team Meeting"
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{longtable}
@@ -219,9 +219,10 @@ Need to [`gather`](https://tidyr.tidyverse.org/reference/gather.html) (like [`UN
 ```{r echo = FALSE}
 tb_data %>%
     gather(key = year, 
-           value = tb_cases, 
+           value = cases, 
            -country) %>%
   mutate_if(is.numeric, scales::comma) %>%
+  arrange(country, year) %>%
   kable_latex()
 ```
 
@@ -236,8 +237,8 @@ hec_untidy <- HairEyeColor %>%
     unite('Hair - Eye - Sex', Hair, Eye, Sex, sep = ' - ') %>% 
     head()
 
-hec_untidy %>%
-    kable_latex()
+hec_untidy %>% 
+  kable_latex()
 ```
 
 The `Hair - Eye - Sex` __variable__ actually has __values__ for three separate __variables__ stored within it.
@@ -252,6 +253,7 @@ hec_untidy %>%
   separate(col = `Hair - Eye - Sex`,
            into = c('hair', 'eye', 'sex'),
            sep = ' - ') %>%
+  arrange(hair, eye, sex) %>%
   kable_latex() # actually not needed
 ```
 
@@ -270,7 +272,6 @@ weather_sub <- weather[3:6,1:9]
 weather_sub %>% kable_latex()
 ```
 
-Think carefully about what the __observation__ is for this data.
 
 ## Tidying #3
 
