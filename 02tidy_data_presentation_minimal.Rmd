@@ -354,7 +354,7 @@ How can we make it easier to scan raw values in a data table?
 
 ## Organizing data in spreadsheets
 
-[Broman & Woo (2018)](https://doi.org/10.1080/00031305.2017.1375989) wrote a short paper with 12 tips for organizing data in spreadsheets for sharing, analysis, reproducibility, and collaboration. After reading the tidy data paper, I would recommend reading it.
+[Broman & Woo (2018)](https://doi.org/10.1080/00031305.2017.1375989) wrote a short paper with 12 tips for organizing data in spreadsheets for sharing, analysis, reproducibility, and collaboration.
 
 \begin{columns}[T]
     \begin{column}{0.48\textwidth}
@@ -390,9 +390,9 @@ How can we make it easier to scan raw values in a data table?
 
 ## Wrapping up
 
- - Put each dataset in a table, put each variable in a column, and consider how hard would it be to calculate a grouped aggregation
- - Structure and tidy up your data to be manipulated by a computer. Ignore urges to make it easily viewed by a human.
-    - Code is for _humans_, data is for _computers_ ([relevant tweet from Vince Buffalo](https://twitter.com/vsbuffalo/status/358699162679787521))
+ - Put each dataset in a table, put each variable in a column, and consider the difficulty of calculating a grouped aggregation
+ - Structure and tidy up your data to be manipulated by a computer. Ignore urges to make it easily viewed by a human at first.
+    - [Code is for _humans_, data is for _computers_](https://twitter.com/vsbuffalo/status/358699162679787521)
  - Be consciously aware of your __values__, __variables__, and __observations__
  - Normalization can be your friend
  - Be assertive and understanding
