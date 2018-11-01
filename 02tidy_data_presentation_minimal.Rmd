@@ -1,5 +1,5 @@
 ---
-title: "Tidy Data"
+title: "An Introduction to Tidy Data Principles"
 author: "Brad Stieber"
 date: "Prepared for 2018-11-02 Data Solutions Team Meeting"
 header-includes:
@@ -136,7 +136,7 @@ knitr::include_graphics('./memes/fed_up_niles2.png')
 
 ## What is tidy data?
 
-Tidy data is __consistent__, __works well with common computational tools__, and __provides a guide for data analysis__.
+Tidy data is __consistent__, __works well with common computational tools__, and __provides a guide for structuring data for analysis__.
 
 There are three qualities a dataset must have to be considered "tidy":
 
@@ -260,7 +260,9 @@ hec_untidy %>%
 
 ## 3. Variables are stored in both rows and columns
 
-This is the most complicated form of untidy data, and typically requires a bit more massaging.
+This is the most complicated form of untidy data, and will require more massaging.
+
+The table below shows a subset of daily weather data for one weather station in Mexico (MX17004).
 
 ```{r}
 fpath <- "https://raw.githubusercontent.com/tidyverse/tidyr/master/vignettes/weather.csv"
@@ -272,6 +274,7 @@ weather_sub <- weather[3:6,1:9]
 weather_sub %>% kable_latex()
 ```
 
+It has __variables in columns__ (`id`, `year`, `month`), __spread across columns__ (`d1`-`d5`, day) and __across rows__ (`tmin`, `tmax`) (minimum and maximum temperature).
 
 ## Tidying #3
 
