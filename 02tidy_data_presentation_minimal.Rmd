@@ -394,12 +394,12 @@ How can we make it easier to scan raw values in a data table?
 
 ## Wrapping up
 
- - Put each dataset in a table, put each variable in a column, and consider the difficulty of calculating a grouped aggregation
+ - Put each dataset in a table, put each variable in a column, and consider the difficulty of calculating a grouped aggregation.
  - Structure and tidy up your data to be manipulated by a computer. Ignore urges to make it easily viewed by a human at first.
     - [Code is for _humans_, data is for _computers_](https://twitter.com/vsbuffalo/status/358699162679787521)
  - Be consciously aware of your __values__, __variables__, and __observations__
  - Normalization can be your friend
- - Be assertive and understanding
+ - Be assertive, understanding, and consistent
 
 ## Other resources
 
@@ -415,10 +415,10 @@ There's a bevy of resources I consulted for this presentation. I've arranged the
   >- [Database Normalization](https://www.essentialsql.com/get-ready-to-learn-sql-database-normalization-explained-in-simple-english/)
   >- [Codd's 3rd Normal Form](https://en.wikipedia.org/wiki/Third_normal_form)
 
-Here's [the link to my GitHub repository](https://github.com/bgstieber/tidy-data-presentation).
+You can find this presentation as well as a longer one on [my GitHub](https://github.com/bgstieber/tidy-data-presentation).
 
-## Questions?
+## Thanks for Listening!
 
-\huge{Thanks for listening!}
+\huge{Questions?}
 
 
