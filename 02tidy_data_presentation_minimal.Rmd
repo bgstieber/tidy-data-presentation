@@ -260,7 +260,7 @@ hec_untidy %>%
 
 ## 3. Variables are stored in both rows and columns
 
-This is the most complicated form of untidy data, and will require more massaging.
+This is the most complicated form of common untidy data, and requires more massaging.
 
 The table below shows a subset of daily weather data for one weather station in Mexico (MX17004).
 
@@ -274,7 +274,7 @@ weather_sub <- weather[3:6,1:9]
 weather_sub %>% kable_latex()
 ```
 
-It has __variables in columns__ (`id`, `year`, `month`), __spread across columns__ (`d1`-`d5`, day) and __across rows__ (`tmin`, `tmax`) (minimum and maximum temperature).
+It has __variables in columns__ (`id`, `year`, `month`), __spread across columns__ (`d1`-`d5`) and __across rows__ (`tmin`, `tmax`).
 
 ## Tidying #3
 
@@ -358,7 +358,7 @@ How can we make it easier to scan raw values in a data table?
 
 ## Organizing data in spreadsheets
 
-[Broman & Woo (2018)](https://doi.org/10.1080/00031305.2017.1375989) wrote a short paper with 12 tips for organizing data in spreadsheets for sharing, analysis, reproducibility, and collaboration.
+[Broman & Woo (2018)](https://doi.org/10.1080/00031305.2017.1375989) wrote a short paper with 12 tips for organizing data in spreadsheets for sharing, reproducible analysis, and collaboration.
 
 \begin{columns}[T]
     \begin{column}{0.48\textwidth}
