@@ -1,7 +1,7 @@
 ---
 title: "Tidy Data"
 author: "Brad Stieber"
-date: "`r Sys.Date()`"
+date: "Prepared for 2020-04-01 Meeting with New Analytics Team Members"
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{longtable}
@@ -127,7 +127,7 @@ I also borrow from other resources (listed at the end), as well as my own experi
 
 ## But mostly...
 
-```{r echo=FALSE, out.width='100%'}
+```{r echo=FALSE, out.width='80%', out.height='80%'}
 knitr::include_graphics('./memes/fed_up_niles2.png')
 ```
 
@@ -165,10 +165,11 @@ Getting data into a tidy format requires understanding the three qualities of ti
 Then, we can get most forms of untidy data to be tidy by utilizing four verbs of data tidying
 
   - [`gather`](https://tidyr.tidyverse.org/reference/gather.html): takes multiple columns, and gathers them into key-value pairs - it makes "wide" data longer
+      + See also: [`pivot_longer`](https://tidyr.tidyverse.org/reference/pivot_longer.html) (supercedes `gather` as of [September 2019](https://www.tidyverse.org/blog/2019/09/tidyr-1-0-0/))
   - [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads into multiple columns - it makes "long" data wider
-  - [`separate`](https://tidyr.tidyverse.org/reference/separate.html): turns a single character column into multiple columns, based on a regular expression or specific positions
+      + See also: [`pivot_wider`](https://tidyr.tidyverse.org/reference/pivot_wider.html) (supercedes `spread` as of [September 2019](https://www.tidyverse.org/blog/2019/09/tidyr-1-0-0/))
+  - [`separate`](https://tidyr.tidyverse.org/reference/separate.html): turns a single column that is character-valued into multiple columns, based on a regular expression or specific positions
   - [`unite`](https://tidyr.tidyverse.org/reference/unite.html): concatenate multiple columns into one
-
 
 # Execution (the practice)
 
@@ -223,6 +224,15 @@ tb_data %>%
     gather(key = year, 
            value = tb_cases, 
            -country) 
+```
+
+## Tidying #1 (using `pivot_longer`)
+
+```{r echo = TRUE}
+tb_data %>%
+    pivot_longer(cols = -country,
+                 names_to = "year", 
+                 values_to = "tb_cases")
 ```
 
 
@@ -302,6 +312,19 @@ mkt_untidy %>%
     mutate(date = lubridate::ymd(date))
 ```
 
+## Tidying #3 (1/2) (using `pivot_longer` and `pivot_wider`)
+
+```{r echo = TRUE}
+mkt_untidy %>%
+    pivot_longer(cols = starts_with('d'),
+                 names_to = "day",
+                 values_to = "price") %>%
+    pivot_wider(names_from = stock, 
+                values_from = price) %>%
+    mutate(day = gsub('d', '', day)) %>%
+    unite(date, year, month, day, sep = '-') %>%
+    mutate(date = lubridate::ymd(date))
+```
 
 ## Tidying #3 (2/2)
 
@@ -405,7 +428,7 @@ How can we make it easier to scan raw values in a data table?
 [Broman & Woo (2018)](https://doi.org/10.1080/00031305.2017.1375989) wrote a short paper with 12 tips for organizing data in spreadsheets for sharing, analysis, reproducibility, and collaboration. After reading the tidy data paper, I would recommend reading it.
 
 \begin{columns}[T]
-    \begin{column}{0.48\textwidth}
+    \begin{column}{0.5\textwidth}
     
         \begin{itemize}
             \item Be consistent
@@ -420,7 +443,7 @@ How can we make it easier to scan raw values in a data table?
         \end{itemize}
 
     \end{column}
-    \begin{column}{0.48\textwidth}
+    \begin{column}{0.5\textwidth}
     
         \begin{itemize}
             \item Do not include calculations in the raw data files
@@ -434,9 +457,10 @@ How can we make it easier to scan raw values in a data table?
     \end{column}
 \end{columns}
 
+
 # Conclusion
 
-## Four tips to get tidy
+## Five tips to get tidy
 
  1. Put each dataset in a table 
     - [`data.frame`](https://stat.ethz.ch/R-manual/R-devel/library/base/html/data.frame.html) (`stringsAsFactors`? printing to a console? lazy evaluation?)
@@ -446,6 +470,8 @@ How can we make it easier to scan raw values in a data table?
     - What are the rows of my dataset (observation, level of detail)?
     - Is each column a _distinct_ variable?
     - How hard would it be to calculate a grouped aggregation?
+ 1. Be able to describe your data set as _one row per __X__ per __Y__ per __Z___
+    - e.g. one row per iris flower, one row per household per year in which they've made a gift, one row per stock per hour per day
  1. Structure and tidy up your data to be manipulated by a computer. Ignore urges to make it easily viewed by a human.
 
 ## Wrapping up
@@ -473,6 +499,6 @@ Here's [the link to my GitHub repository](https://github.com/bgstieber/tidy-data
 
 ## Questions?
 
-\huge{Thanks for listening!}
+\huge Thanks for listening!
 
 

@@ -1,7 +1,7 @@
 ---
 title: "An Introduction to Tidy Data Principles"
 author: "Brad Stieber"
-date: "Prepared for 2018-11-02 Data Solutions Team Meeting"
+date: " "
 header-includes:
 - \usepackage{booktabs}
 - \usepackage{longtable}
@@ -419,6 +419,6 @@ You can find this presentation as well as a longer one on [my GitHub](https://gi
 
 ## Thanks for Listening!
 
-\huge{Questions?}
+\LARGE{Questions?}
 
 
