@@ -165,9 +165,9 @@ Getting data into a tidy format requires understanding the three qualities of ti
 Then, we can get most forms of untidy data to be tidy by utilizing four verbs of data tidying
 
   - [`gather`](https://tidyr.tidyverse.org/reference/gather.html): takes multiple columns, and gathers them into key-value pairs - it makes "wide" data longer
-      + See also: [`pivot_longer`](https://tidyr.tidyverse.org/reference/pivot_longer.html) (supercedes `gather` as of [September 2019](https://www.tidyverse.org/blog/2019/09/tidyr-1-0-0/))
+      + See also: [`pivot_longer`](https://tidyr.tidyverse.org/reference/pivot_longer.html) (supersedes `gather` as of [September 2019](https://www.tidyverse.org/blog/2019/09/tidyr-1-0-0/))
   - [`spread`](https://tidyr.tidyverse.org/reference/spread.html):  takes two columns (key & value) and spreads into multiple columns - it makes "long" data wider
-      + See also: [`pivot_wider`](https://tidyr.tidyverse.org/reference/pivot_wider.html) (supercedes `spread` as of [September 2019](https://www.tidyverse.org/blog/2019/09/tidyr-1-0-0/))
+      + See also: [`pivot_wider`](https://tidyr.tidyverse.org/reference/pivot_wider.html) (supersedes `spread` as of [September 2019](https://www.tidyverse.org/blog/2019/09/tidyr-1-0-0/))
   - [`separate`](https://tidyr.tidyverse.org/reference/separate.html): turns a single column that is character-valued into multiple columns, based on a regular expression or specific positions
   - [`unite`](https://tidyr.tidyverse.org/reference/unite.html): concatenate multiple columns into one
 
@@ -470,7 +470,7 @@ How can we make it easier to scan raw values in a data table?
     - What are the rows of my dataset (observation, level of detail)?
     - Is each column a _distinct_ variable?
     - How hard would it be to calculate a grouped aggregation?
- 1. Be able to describe your data set as _one row per __X__ per __Y__ per __Z___
+ 1. Be able to describe your data set as _one row per __X__ per __Y__ per __Z__ per ..._
     - e.g. one row per iris flower, one row per household per year in which they've made a gift, one row per stock per hour per day
  1. Structure and tidy up your data to be manipulated by a computer. Ignore urges to make it easily viewed by a human.
 
@@ -483,7 +483,7 @@ How can we make it easier to scan raw values in a data table?
 
 ## Other resources
 
-There's a bevy of resources I consulted for this presentation. I've arranged these in descending order of importance.
+I consulted a number of resources for this presentation. I've arranged these in descending order of importance.
 
   >- [_The_ tidy data paper](http://vita.had.co.nz/papers/tidy-data.html)
   >- [Data Organization in Spreadsheets](https://www.tandfonline.com/doi/full/10.1080/00031305.2017.1375989)
